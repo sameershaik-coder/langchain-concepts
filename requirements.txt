@@ -1,0 +1,15 @@
+# stage 01
+# langchain
+# openai
+# faiss-cpu
+# pinecone-client
+# langchain-openai
+
+# stage 02
+langchain_community
+tiktoken 
+langchain-openai
+langchainhub
+chromadb
+langchain
+bs4
