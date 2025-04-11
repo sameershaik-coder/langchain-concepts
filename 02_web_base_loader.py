@@ -3,9 +3,8 @@ from langchain import hub
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_community.vectorstores import Chroma
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain.prompts import PromptTemplate
 
 # Load Documents
 loader = WebBaseLoader(
@@ -22,34 +21,41 @@ docs = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(docs)
 
-# Embed
+# Embed and create vectorstore
 vectorstore = Chroma.from_documents(documents=splits, 
                                     embedding=OpenAIEmbeddings())
 
+# Initialize retriever and LLM
 retriever = vectorstore.as_retriever()
-
-#### RETRIEVAL and GENERATION ####
-
-# Prompt
-prompt = hub.pull("rlm/rag-prompt")
-
-# LLM
 llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
 
-# Post-processing
-def format_docs(docs):
-    result =  "\n\n".join(doc.page_content for doc in docs)
-    print(result)
-    return result
+# Create prompt template
+prompt_template = """Answer the question based on the following context:
 
-# Chain
-rag_chain = (
-    {"context": retriever | format_docs, "question": RunnablePassthrough()}
-    | prompt
-    | llm
-    | StrOutputParser()
-)
+Context: {context}
 
-# Question
-result = rag_chain.invoke("What is Task Decomposition?")
-print(result)
+Question: {question}
+
+Answer:"""
+PROMPT = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+
+def get_rag_response(question: str) -> str:
+    # Get relevant documents
+    retrieved_docs = retriever.get_relevant_documents(question)
+    
+    # Format documents
+    context = "\n\n".join(doc.page_content for doc in retrieved_docs)
+    print("Retrieved context:", context)  # Optional: for debugging
+    
+    # Create prompt
+    prompt = PROMPT.format(context=context, question=question)
+    
+    # Get response from LLM
+    response = llm.invoke(prompt)
+    
+    return response.content
+
+# Example usage
+question = "What is Task Decomposition?"
+result = get_rag_response(question)
+print("\nAnswer:", result)
