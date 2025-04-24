@@ -121,7 +121,8 @@ def main():
         # Example queries
         questions = [
             "which company does sheryl Baxter work for?",
-            "provide names of all the customers located in chile",
+            "provide names of all the customers from country as Bhutan",
+            "provide names of all the customers from country as Bhutan and their company names",
         ]
         
         for question in questions:
