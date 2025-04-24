@@ -12,6 +12,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# https://github.com/NirDiamant/RAG_Techniques/blob/main/all_rag_techniques/simple_csv_rag.ipynb
+
 class CSVBasedRAG:
     def __init__(self):
         load_dotenv()
@@ -118,9 +120,7 @@ def main():
         
         # Example queries
         questions = [
-            "What are the top performing platforms in terms of revenue?",
-            "Which games generated the most revenue in 2024?",
-            "What was the monthly trend for EA SPORTS FC 25?"
+            "which company does sheryl Baxter work for?"
         ]
         
         for question in questions:
