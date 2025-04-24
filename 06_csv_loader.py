@@ -120,7 +120,8 @@ def main():
         
         # Example queries
         questions = [
-            "which company does sheryl Baxter work for?"
+            "which company does sheryl Baxter work for?",
+            "provide names of all the customers located in chile",
         ]
         
         for question in questions:
