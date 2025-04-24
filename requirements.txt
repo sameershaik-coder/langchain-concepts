@@ -5,6 +5,7 @@
 # pinecone-client
 # langchain-openai
 
+
 # stage 02
 langchain_community
 tiktoken 
@@ -13,3 +14,8 @@ langchainhub
 chromadb
 langchain
 bs4
+#stafe 06
+pandas
+
+# stage 07
+sentence-transformers
