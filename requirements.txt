@@ -25,3 +25,6 @@ faiss-cpu
 # lg_stage01
 langgraph
 #langsmith
+
+#lg_stage02
+langchain-tavily
