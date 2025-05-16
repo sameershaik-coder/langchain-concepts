@@ -19,4 +19,5 @@ pandas
 
 # stage 07
 sentence-transformers
-faiss-gpu-cu12
+#faiss-gpu-cu12
+faiss-cpu
