@@ -21,3 +21,7 @@ pandas
 sentence-transformers
 #faiss-gpu-cu12
 faiss-cpu
+
+# lg_stage01
+langgraph
+#langsmith
