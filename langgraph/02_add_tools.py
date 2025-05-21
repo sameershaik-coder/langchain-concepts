@@ -3,8 +3,8 @@ from langchain_openai import ChatOpenAI
 
 tool = TavilySearch(max_results=2)
 tools = [tool]
-response = tool.invoke("What's a 'node' in LangGraph?")
-print(response["results"])
+# response = tool.invoke("What's a 'node' in LangGraph?")
+# print(response["results"])
 
 from typing import Annotated
 
@@ -96,6 +96,27 @@ graph_builder.add_conditional_edges(
 graph_builder.add_edge("tools", "chatbot")
 graph_builder.add_edge(START, "chatbot")
 graph = graph_builder.compile()
+
+# display graph
+from IPython.display import Image, display
+
+try:
+    mermaid_png_data  = graph.get_graph().draw_mermaid_png()
+    output_file_path = "my_graph_image.png"
+    if not isinstance(mermaid_png_data, bytes):
+        raise TypeError(
+            "The draw_mermaid_png() method did not return bytes. "
+            "Please ensure it returns raw PNG data."
+        )
+
+    # 2. Save the PNG data to a file
+    with open(output_file_path, "wb") as image_file:
+        image_file.write(mermaid_png_data)
+
+    print(f"Graph image successfully saved to: {output_file_path}")
+except Exception:
+    # This requires some extra dependencies and is optional
+    pass
 
 def stream_graph_updates(user_input: str):
     for event in graph.stream({"messages": [{"role": "user", "content": user_input}]}):

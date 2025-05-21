@@ -28,3 +28,4 @@ langgraph
 
 #lg_stage02
 langchain-tavily
+ipython
